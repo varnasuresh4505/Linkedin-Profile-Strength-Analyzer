@@ -1,13 +1,17 @@
-import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import WelcomePage from './welcomePage';
 import ProfileForm from './ProfileForm';
+import ResultSection from './resultSection';
 
-function App() {
+const App = () => {
   return (
-    <div style={{ padding: '2rem', fontFamily: 'Arial' }}>
-      <h1>LinkedIn Profile Strength Analyzer</h1>
-      <ProfileForm />
-    </div>
+    <Routes>
+      <Route path="/" element={<WelcomePage />} />
+      <Route path="/ProfileForm" element={<ProfileForm />} />
+      <Route path="/results" element={<ResultSection />} />
+    </Routes>
   );
-}
+};
 
 export default App;
+

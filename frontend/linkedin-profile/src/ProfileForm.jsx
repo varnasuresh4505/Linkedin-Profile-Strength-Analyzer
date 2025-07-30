@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import {
-  BarChart, Bar, XAxis, YAxis, Tooltip, PieChart, Pie, Cell, Legend, ResponsiveContainer
-} from 'recharts';
+import './ProfileForm.css';
+import { useNavigate } from 'react-router-dom';
 
 function ProfileForm() {
   const [file, setFile] = useState(null);
-  const [result, setResult] = useState(null);
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -30,69 +29,40 @@ function ProfileForm() {
       }
 
       const data = await response.json();
-      setResult(data);
       setError("");
+      navigate("/results", { state: { result: data } });
     } catch (err) {
       console.error(err);
       setError("Failed to analyze the file. Check if backend is running.");
     }
   };
 
-  const pieColors = ['#8884d8', '#82ca9d', '#ffc658', '#ff7f50'];
-
   return (
-    <div style={{ marginTop: '1rem' }}>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="file"
-          accept="application/pdf"
-          onChange={(e) => setFile(e.target.files[0])}
-          style={{ marginBottom: '1rem' }}
-        />
-        <br />
-        <button type="submit">Analyze PDF</button>
-      </form>
+    <div className="profile-container">
+      <header className="navbar">
+        <h1 className="brand">LinkedIn Profile Strength Analyzer</h1>
+        <nav className="nav-links">
+          <a href="#">Dashboard</a>
+          <a href="#">Analyze</a>
+          <a href="#">Tips</a>
+          <a href="#">About</a>
+        </nav>
+      </header>
 
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-
-      {result && (
-        <div style={{ marginTop: '2rem', background: '#f9f9f9', padding: '1rem' }}>
-          <h3>Result:</h3>
-          <pre>{JSON.stringify(result, null, 2)}</pre>
-
-          <h4 style={{ marginTop: '2rem' }}>📊 Section Scores</h4>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={result.scores}>
-              <XAxis dataKey="section" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Bar dataKey="score" fill="#8884d8" />
-            </BarChart>
-          </ResponsiveContainer>
-
-          <h4 style={{ marginTop: '2rem' }}>🎯 Skill Categories</h4>
-          <ResponsiveContainer width="100%" height={300}>
-            <PieChart>
-              <Pie
-                data={result.skill_categories}
-                dataKey="value"
-                nameKey="name"
-                cx="50%"
-                cy="50%"
-                outerRadius={100}
-                label
-              >
-                {result.skill_categories.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={pieColors[index % pieColors.length]} />
-                ))}
-              </Pie>
-              <Tooltip />
-              <Legend />
-            </PieChart>
-          </ResponsiveContainer>
+      <main className="form-section">
+        <div className="form-box">
+          <h2>Analyze Your LinkedIn Profile</h2>
+          <form onSubmit={handleSubmit}>
+            <input
+              type="file"
+              accept="application/pdf"
+              onChange={(e) => setFile(e.target.files[0])}
+            />
+            <button type="submit">Analyze PDF</button>
+          </form>
+          {error && <p className="error">{error}</p>}
         </div>
-      )}
+      </main>
     </div>
   );
 }
