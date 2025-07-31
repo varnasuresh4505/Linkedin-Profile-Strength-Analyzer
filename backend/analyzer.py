@@ -1,16 +1,20 @@
 import fitz  # PyMuPDF
-import spacy
 from tips import get_section_tips
-
-nlp = spacy.load("en_core_web_sm")
 
 SECTION_KEYWORDS = {
     "About": ["about", "summary"],
     "Experience": ["experience", "work"],
     "Skills": ["skills", "technologies"],
     "Certifications": ["certifications", "courses"],
-    "Projects": ["projects", "portfolio"],
     "Education": ["education", "university", "college"],
+}
+
+SECTION_SCORES = {
+    "About": 20,
+    "Experience": 20,
+    "Skills": 20,
+    "Certifications": 20,
+    "Education": 20,
 }
 
 SKILL_CATEGORIES = {
@@ -27,12 +31,39 @@ def extract_text_from_pdf(pdf_bytes):
         text += page.get_text()
     return text
 
+def extract_sections(text):
+    sections = {}
+    lines = text.splitlines()
+    current_section = None
+    section_text = []
+
+    for line in lines:
+        lower = line.lower().strip()
+        found_section = None
+        for section, keywords in SECTION_KEYWORDS.items():
+            if any(k in lower for k in keywords):
+                found_section = section
+                break
+
+        if found_section:
+            if current_section:
+                sections[current_section] = "\n".join(section_text).strip()
+            current_section = found_section
+            section_text = []
+        elif current_section:
+            section_text.append(line)
+
+    if current_section:
+        sections[current_section] = "\n".join(section_text).strip()
+
+    return sections
+
 def score_sections(text):
     scores = {}
     text_lower = text.lower()
     for section, keywords in SECTION_KEYWORDS.items():
-        match = any(k in text_lower for k in keywords)
-        scores[section] = 15 if match else 0
+        matched = any(k in text_lower for k in keywords)
+        scores[section] = SECTION_SCORES[section] if matched else 0
     return scores
 
 def analyze_skills(text):
@@ -47,17 +78,22 @@ def analyze_skills(text):
 def analyze_pdf(pdf_bytes):
     raw_text = extract_text_from_pdf(pdf_bytes)
     section_scores = score_sections(raw_text)
-    tips = get_section_tips(raw_text, section_scores)
+    sections = extract_sections(raw_text)
+    tips = get_section_tips(sections)
 
     total = sum(section_scores.values())
     skill_data = analyze_skills(raw_text)
 
-    result = {
+    return {
         "total_score": total,
         "scores": [
-            {"section": sec, "score": score, "tip": tips.get(sec, "")}
-            for sec, score in section_scores.items()
+            {
+                "section": sec,
+                "score": section_scores.get(sec, 0),
+                "tip": tips.get(sec, "No suggestions found.")
+            }
+            for sec in SECTION_KEYWORDS
         ],
-        "skill_categories": skill_data
+        "skill_categories": skill_data,
+        "sections": sections
     }
-    return result
