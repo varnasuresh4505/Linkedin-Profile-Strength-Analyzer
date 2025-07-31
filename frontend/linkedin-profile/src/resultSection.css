@@ -1,0 +1,160 @@
+.result-card {
+  background: #f0f4ff;
+  padding: 1rem;
+  margin: 1rem 0;
+  border-left: 4px solid #6366f1;
+  border-radius: 0.5rem;
+}
+
+body, html {
+  margin:0;
+}
+
+.result-card h4 {
+  margin-bottom: 0.5rem;
+  color: #4338ca;
+}
+
+.section-block {
+  background: #fff0f6;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-left: 4px solid #ec4899;
+  border-radius: 0.5rem;
+}
+
+.section-block h5 {
+  margin-bottom: 0.25rem; 
+  font-size: 1rem;
+  color: #be185d;
+}
+
+.section-block p,
+.result-card p {
+  margin: 0.3rem 0;
+  line-height: 1.4;
+}
+.score-summary {
+  background: #eef2ff;
+  border-left: 6px solid #6366f1;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  border-radius: 1rem;
+  text-align: center;
+}
+
+.navbar{
+  position: fixed;
+  top: 0;
+  height: 50px;
+  z-index: 1000;
+  width:100%;
+  left:0;
+}
+
+.profilecontainer {
+  display: flex;
+  width:100px;
+  flex-direction: column;
+  background: linear-gradient(to top right, #c3dafe, #e9d8fd, #fbcfe8);
+  width: 100%;
+  font-family: 'Segoe UI', sans-serif;
+  color: #333;
+  
+}
+
+.result-section{
+  top:70px;
+  position: relative;
+}
+
+.score-summary h2 {
+  font-size: 2.5rem;
+  color: #4f46e5;
+  margin-bottom: 0.5rem;
+}
+
+.score-summary p {
+  font-size: 1.2rem;
+  color: #374151;
+  font-weight: 500;
+}
+
+
+
+.result-card h5 {
+  color: #b45309;
+  margin-bottom: 0.5rem;
+}
+
+
+.score-cards-container {
+  display: flex;
+  overflow-x: auto;
+  gap: 1rem;
+  padding: 1rem;
+  scroll-behavior: smooth;
+}
+
+.score-card {
+  min-width: 130px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  text-align: center;
+  padding: 1rem;
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+}
+
+.score {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.section-name {
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+.score-green {
+  border-left: 5px solid #16a34a; /* green */
+}
+
+.score-yellow {
+  border-left: 5px solid #facc15; /* yellow */
+}
+
+.score-red {
+  border-left: 5px solid #ef4444; /* red */
+}
+
+.score-cards-scroll {
+  margin: 2rem 0;
+  display: flex;
+  justify-content: center;
+}
+.score-chart-container {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.chart-box {
+  width: 320px;
+  height: 320px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.score-summary {
+  flex: 2;
+}
+
+
+
+

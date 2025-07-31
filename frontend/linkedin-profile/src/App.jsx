@@ -11,7 +11,6 @@ const App = () => {
       <Route path="/results" element={<ResultSection />} />
     </Routes>
   );
-};
-
-export default App;  
+};    
+export default App;     
 

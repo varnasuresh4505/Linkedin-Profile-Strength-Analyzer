@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import './ProfileForm.css';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import "./ProfileForm.css";
+import { useNavigate } from "react-router-dom";
 
 function ProfileForm() {
   const [file, setFile] = useState(null);
@@ -16,11 +16,11 @@ function ProfileForm() {
     }
 
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append("file", file);
 
     try {
-      const response = await fetch('http://localhost:5000/analyze', {
-        method: 'POST',
+      const response = await fetch("http://localhost:5000/analyze", {
+        method: "POST",
         body: formData,
       });
 
@@ -41,19 +41,17 @@ function ProfileForm() {
     <div className="profile-container">
       <header className="navbar">
         <h1 className="brand">LinkedIn Profile Strength Analyzer</h1>
-        <nav className="nav-links">
-          <a href="#">Dashboard</a>
-          <a href="#">Analyze</a>
-          <a href="#">Tips</a>
-          <a href="#">About</a>
-        </nav>
       </header>
 
       <main className="form-section">
         <div className="form-box">
           <h2>Analyze Your LinkedIn Profile</h2>
           <form onSubmit={handleSubmit}>
+            <label htmlFor="file-upload" className="custom-file-upload">
+              {file ? file.name : "Upload LinkedIn Profile PDF"}
+            </label>
             <input
+              id="file-upload"
               type="file"
               accept="application/pdf"
               onChange={(e) => setFile(e.target.files[0])}
